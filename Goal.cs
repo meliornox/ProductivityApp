@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace ProductivityApp;
 
-namespace ProductivityApp
+public class Goal
 {
-    public class Goal
-    {
-        public string Name { get; set; }
-        public string Motivation { get; set; }
-        public string TargetDate { get; set; }
-        public double Progress { get; set; }
-    }
+    public string Name { get; set; }
+    public string Motivation { get; set; }
+    public string TargetDate { get; set; }
+    public double Progress { get; set; }
 }

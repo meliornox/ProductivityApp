@@ -1,342 +1,148 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Color palette: https://colorhunt.co/palette/f5fbe6215e61233d4dfe7f2d
+
+<!-- Project completed through the Build Fellowship with Software Development Fellow Noemi Maizl
+	https://hub.buildfellowship.com/projects/meet-your-goals-develop-a-cross-platform-productivity-solution-1
+	
+	Color palette: https://colorhunt.co/palette/f5fbe6215e61233d4dfe7f2d
 	F5FBE6
 	215E61
 	233D4D
-	E8E2DB -->
+	E8E2DB 
+	-->
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProductivityApp.MainPage"
+			 xmlns:model="clr-namespace:ProductivityApp"
+			 Title="Let's Get Started!"
 			 BackgroundColor="#233D4D">
+	
+	<Grid Padding="10" RowSpacing="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-    <ScrollView>
-		<Grid
-			Padding="10"
-			ColumnSpacing="10"
-			RowSpacing="10"
-			VerticalOptions="Start">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+		<CollectionView Grid.Row="0"
+						BackgroundColor="Transparent"
+						SelectionMode="None">
+			<CollectionView.ItemsSource>
+				<x:Array Type="{x:Type model:Goal}">
+					<model:Goal
+						Name="First Goal"
+						Motivation="The first goal is important."
+						TargetDate="February 18th, 2026"
+						Progress="0.8"/>
+					<model:Goal
+						Name="Second Goal"
+						Motivation="The second goal is important."
+						TargetDate="February 18th, 2026"
+						Progress="0.7"/>
+					<model:Goal
+						Name="Third Goal"
+						Motivation="The third goal is important."
+						TargetDate="February 18th, 2026"
+						Progress="0.6"/>
+					<model:Goal
+						Name="Fourth Goal"
+						Motivation="The fourth goal is important."
+						TargetDate="February 18th, 2026"
+						Progress="0.4"/>
+					<model:Goal
+						Name="Fifth Goal"
+						Motivation="The fifth goal is important."
+						TargetDate="February 18th, 2026"
+						Progress="0.3"/>
+					<model:Goal
+						Name="Sixth Goal"
+						Motivation="The sixth goal is important."
+						TargetDate="February 18th, 2026"
+						Progress="0.2"/>
+				</x:Array>
+			</CollectionView.ItemsSource>
+
+			<CollectionView.ItemsLayout>
+				<GridItemsLayout Orientation="Vertical"
+								 Span="2"
+								 HorizontalItemSpacing="10"
+								 VerticalItemSpacing="10"/>
+			</CollectionView.ItemsLayout>
+
+			<CollectionView.ItemTemplate>
+				<DataTemplate x:DataType="model:Goal">
+					<Border
+						BackgroundColor="#215E61"
+						StrokeThickness="2"
+						StrokeShape="RoundRectangle 8"
+						Stroke="#F5FBE6"
+						HeightRequest="150">
+
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Tapped="OnGoalTapped" />
+						</Border.GestureRecognizers>
+
+						<!-- <FlyoutBase.ContextFlyout... /> -->
+						
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							
+							<Label
+								Text="{Binding Name}"
+								Padding="10,10"
+								FontSize="18"
+								TextColor="#FE7F2D"
+								HorizontalTextAlignment="Start"
+								Grid.Row="0" />
+							
+							<Label
+								Text="{Binding TargetDate}"
+								Padding="10,10"
+								FontSize="14"
+								TextColor="#FE7F2D"
+								HorizontalTextAlignment="End"
+								Grid.Row="0" />
+							
+							<Label
+								Text="{Binding Motivation}"
+								Padding="10,10"
+								FontSize="14"
+								TextColor="#FE7F2D"
+								HorizontalTextAlignment="Start"
+								Grid.Row="1"/>
+							
+							<ProgressBar
+								Progress="{Binding Progress}"
+								ProgressColor="#FE7F2D"
+								BackgroundColor="#233D4D"
+								Grid.Row="2"/>
+						</Grid>
+						
+					</Border>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+
+			<!--
+			<CollectionView.EmptyView>
+			</CollectionView.EmptyView>
+			-->
 			
-			<Grid
-				Padding="10"
-				ColumnSpacing="10"
-				RowSpacing="10"
-				VerticalOptions="Start">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
+		</CollectionView>
+		<Button
+			Grid.Row="1"
+			Text="Add Goal"
+			FontSize="24"
+			FontAttributes="Bold"
+			TextColor="#FE7F2D"
+			BackgroundColor="#F5FBE6"
+			Clicked="OnNewGoalButtonClicked"/>
+	</Grid>
 
-				<Label
-					Grid.Row="0"
-					Grid.Column="0"
-					Text="Let's Get Started!"
-					HorizontalTextAlignment="Start"
-					VerticalTextAlignment="Center"
-					Padding="10,10"
-					FontAttributes="Bold"
-					FontSize="24"
-					TextColor="#FE7F2D" />
-
-				<Border
-					Grid.Row="1"
-					Grid.Column="0"
-					HeightRequest="150"
-					StrokeShape="RoundRectangle 8"
-					StrokeThickness="2"
-					Background="#215E61"
-					Stroke="#F5FBE6">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Label
-							Text="First Goal"
-							Padding="10,10"
-							FontSize="18"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="0" />
-						<Label
-							Text="February 18th, 2026"
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="End"
-							Grid.Row="0" />
-						<Label
-							Text="The first goal is important."
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="1"/>
-						<ProgressBar 
-							Progress="0.3" 
-							ProgressColor="#FE7F2D"
-							BackgroundColor="#233D4D"
-							Grid.Row="2"/>
-					</Grid>
-				</Border>
-			
-				<Border
-					Grid.Row="1"
-					Grid.Column="1"
-					HeightRequest="150"
-					StrokeShape="RoundRectangle 8"
-					StrokeThickness="2"
-					Background="#215E61"
-					Stroke="#F5FBE6">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Label
-							Text="Second Goal"
-							Padding="10,10"
-							FontSize="18"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="0" />
-						<Label
-							Text="February 18th, 2026"
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="End"
-							Grid.Row="0" />
-						<Label
-							Text="The second goal is important."
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="1"/>
-						<ProgressBar
-							Progress="0.3"
-							ProgressColor="#FE7F2D"
-							BackgroundColor="#233D4D"
-							Grid.Row="2"/>
-					</Grid>
-				</Border>
-
-				<Border
-					Grid.Row="2"
-					Grid.Column="0"
-					HeightRequest="150"
-					StrokeShape="RoundRectangle 8"
-					StrokeThickness="2"
-					Background="#215E61"
-					Stroke="#F5FBE6">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Label
-							Text="Third Goal"
-							Padding="10,10"
-							FontSize="18"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="0" />
-						<Label
-							Text="February 18th, 2026"
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="End"
-							Grid.Row="0" />
-						<Label
-							Text="The third goal is important."
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="1"/>
-						<ProgressBar 
-							Progress="0.3" 
-							ProgressColor="#FE7F2D"
-							BackgroundColor="#233D4D"
-							Grid.Row="2"/>
-					</Grid>
-				</Border>
-
-				<Border
-					Grid.Row="2"
-					Grid.Column="1"
-					HeightRequest="150"
-					StrokeShape="RoundRectangle 8"
-					StrokeThickness="2"
-					Background ="#215E61"
-					Stroke="#F5FBE6">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Label
-							Text="Fourth Goal"
-							Padding="10,10"
-							FontSize="18"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="0" />
-						<Label
-							Text="February 18th, 2026"
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="End"
-							Grid.Row="0" />
-						<Label
-							Text="The fourth goal is important."
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="1"/>
-						<ProgressBar
-							Progress="0.3"
-							ProgressColor="#FE7F2D"
-							BackgroundColor="#233D4D"
-							Grid.Row="2"/>
-					</Grid>
-				</Border>
-
-				<Border
-					Grid.Row="3"
-					Grid.Column="0"
-					HeightRequest="150"
-					StrokeShape="RoundRectangle 8"
-					StrokeThickness="2"
-					Background="#215E61"
-					Stroke="#F5FBE6">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Label
-							Text="Fifth Goal"
-							Padding="10,10"
-							FontSize="18"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="0" />
-						<Label
-							Text="February 18th, 2026"
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="End"
-							Grid.Row="0" />
-						<Label
-							Text="The fifth goal is important."
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="1"/>
-						<ProgressBar
-							Progress="0.3"
-							ProgressColor="#FE7F2D"
-							BackgroundColor="#233D4D"
-							Grid.Row="2"/>
-					</Grid>
-				</Border>
-
-				<Border
-					Grid.Row="3"
-					Grid.Column="1"
-					HeightRequest="150"
-					StrokeShape="RoundRectangle 8"
-					StrokeThickness="2"
-					Background ="#215E61"
-					Stroke="#F5FBE6">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Label
-							Text="Sixth Goal"
-							Padding="10,10"
-							FontSize="18"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="0" />
-						<Label
-							Text="February 18th, 2026"
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="End"
-							Grid.Row="0" />
-						<Label
-							Text="The sixth goal is important."
-							Padding="10,10"
-							FontSize="14"
-							TextColor="#FE7F2D"
-							HorizontalTextAlignment="Start"
-							Grid.Row="1"/>
-						<ProgressBar
-							Progress="0.3"
-							ProgressColor="#FE7F2D"
-							BackgroundColor="#233D4D"
-							Grid.Row="2"/>
-					</Grid>
-				</Border>
-			</Grid>
-			
-			<Button 
-				Grid.Row="1" 
-				Text="New Goal"
-				FontSize="24"
-				FontAttributes="Bold"
-				TextColor="#FE7F2D"
-				BackgroundColor="#F5FBE6" />
-			
-		</Grid>
-    </ScrollView>
 </ContentPage>

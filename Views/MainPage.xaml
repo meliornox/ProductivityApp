@@ -12,8 +12,9 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProductivityApp.MainPage"
-			 xmlns:model="clr-namespace:ProductivityApp"
+             x:Class="ProductivityApp.Views.MainPage"
+			 xmlns:model="clr-namespace:ProductivityApp.Models"
+			 xmlns:viewmodel="clr-namespace:ProductivityApp.ViewModels"
 			 Title="Let's Get Started!"
 			 BackgroundColor="#233D4D">
 	
@@ -25,42 +26,8 @@
 
 		<CollectionView Grid.Row="0"
 						BackgroundColor="Transparent"
-						SelectionMode="None">
-			<CollectionView.ItemsSource>
-				<x:Array Type="{x:Type model:Goal}">
-					<model:Goal
-						Name="First Goal"
-						Motivation="The first goal is important."
-						TargetDate="February 18th, 2026"
-						Progress="0.8"/>
-					<model:Goal
-						Name="Second Goal"
-						Motivation="The second goal is important."
-						TargetDate="February 18th, 2026"
-						Progress="0.7"/>
-					<model:Goal
-						Name="Third Goal"
-						Motivation="The third goal is important."
-						TargetDate="February 18th, 2026"
-						Progress="0.6"/>
-					<model:Goal
-						Name="Fourth Goal"
-						Motivation="The fourth goal is important."
-						TargetDate="February 18th, 2026"
-						Progress="0.4"/>
-					<model:Goal
-						Name="Fifth Goal"
-						Motivation="The fifth goal is important."
-						TargetDate="February 18th, 2026"
-						Progress="0.3"/>
-					<model:Goal
-						Name="Sixth Goal"
-						Motivation="The sixth goal is important."
-						TargetDate="February 18th, 2026"
-						Progress="0.2"/>
-				</x:Array>
-			</CollectionView.ItemsSource>
-
+						SelectionMode="None"
+						ItemsSource="{Binding Goals}">
 			<CollectionView.ItemsLayout>
 				<GridItemsLayout Orientation="Vertical"
 								 Span="2"
@@ -78,22 +45,24 @@
 						HeightRequest="150">
 
 						<Border.GestureRecognizers>
-							<TapGestureRecognizer Tapped="OnGoalTapped" />
+							<TapGestureRecognizer 
+								Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=GoToDetailsCommand}"
+								CommandParameter="{Binding .}"/>
 						</Border.GestureRecognizers>
 
 						<!-- <FlyoutBase.ContextFlyout... /> -->
-						
+
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							
+
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
-							
+
 							<Label
 								Text="{Binding Name}"
 								Padding="10,10"
@@ -101,7 +70,7 @@
 								TextColor="#FE7F2D"
 								HorizontalTextAlignment="Start"
 								Grid.Row="0" />
-							
+
 							<Label
 								Text="{Binding TargetDate}"
 								Padding="10,10"
@@ -109,7 +78,7 @@
 								TextColor="#FE7F2D"
 								HorizontalTextAlignment="End"
 								Grid.Row="0" />
-							
+
 							<Label
 								Text="{Binding Motivation}"
 								Padding="10,10"
@@ -117,14 +86,14 @@
 								TextColor="#FE7F2D"
 								HorizontalTextAlignment="Start"
 								Grid.Row="1"/>
-							
+
 							<ProgressBar
 								Progress="{Binding Progress}"
 								ProgressColor="#FE7F2D"
 								BackgroundColor="#233D4D"
 								Grid.Row="2"/>
 						</Grid>
-						
+
 					</Border>
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
@@ -133,7 +102,7 @@
 			<CollectionView.EmptyView>
 			</CollectionView.EmptyView>
 			-->
-			
+
 		</CollectionView>
 		<Button
 			Grid.Row="1"
@@ -142,7 +111,7 @@
 			FontAttributes="Bold"
 			TextColor="#FE7F2D"
 			BackgroundColor="#F5FBE6"
-			Clicked="OnNewGoalButtonClicked"/>
+			Command="{Binding GoToAddCommand}"/>
 	</Grid>
 
 </ContentPage>

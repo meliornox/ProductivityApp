@@ -1,4 +1,4 @@
-﻿namespace ProductivityApp;
+﻿namespace ProductivityApp.Models;
 
 public class Goal
 {

@@ -1,4 +1,6 @@
-﻿namespace ProductivityApp
+﻿using ProductivityApp.Views;
+
+namespace ProductivityApp
 {
     public partial class AppShell : Shell
     {

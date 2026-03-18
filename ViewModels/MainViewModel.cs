@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using ProductivityApp.Models;
 using ProductivityApp.Views;
+using ProductivityApp.DAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,13 @@ namespace ProductivityApp.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    private readonly IGoalService _goalRepo;
+
+    public MainViewModel(IGoalRepository goalRepo)
+    {
+        _goalRepo = goalRepo;
+    }
+
     public ObservableCollection<Goal> Goals { get; }
 
     public MainViewModel()

@@ -22,13 +22,6 @@ public partial class NewGoalViewModel : ObservableObject
     [ObservableProperty]
     private double progress;
 
-    /*
-    public NewGoalViewModel()
-    {
-
-    } 
-    */
-
     [RelayCommand]
     async Task AddNewGoal()
     {

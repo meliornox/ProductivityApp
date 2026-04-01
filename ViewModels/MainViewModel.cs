@@ -1,92 +1,95 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ProductivityApp.DAL;
 using ProductivityApp.Models;
+using ProductivityApp.Services;
 using ProductivityApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace ProductivityApp.ViewModels;
 
+
 public partial class MainViewModel : ObservableObject
 {
-    public ObservableCollection<Goal> Goals { get; }
+    // Private access to the GoalService
+    private readonly IGoalService _goalService;
 
-    public MainViewModel()
+    // Make an observable list of goals
+    public ObservableCollection<Goal> Goals { get; } = new();
+
+    //Initialize GoalService
+    public MainViewModel(IGoalService goalService)
     {
-        Goals = new ObservableCollection<Goal> {
-            new Goal()
-            {
-                Name = "First Goal",
-                Motivation = "The first goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.8,
-            },
-            new Goal()
-            {
-                Name = "Second Goal",
-                Motivation = "The second goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.7
-            },
-            new Goal()
-            {
-                Name = "Third Goal",
-                Motivation = "The third goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.6
-            },
-            new Goal()
-            {
-                Name = "Fourth Goal",
-                Motivation = "The fourth goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.5
-            },
-            new Goal()
-            {
-                Name = "Fifth Goal",
-                Motivation = "The fifth goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.4
-            },
-            new Goal()
-            {
-                Name = "Sixth Goal",
-                Motivation = "The sixth goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.3
-            }
-        };
-
+        _goalService = goalService;
     }
 
-    // Navigate to Add page to user input
+    /// <summary>
+    /// Refreshes the goals on the UI when the main view appears on screen.
+    /// </summary>
+    public void OnAppearing()
+    {
+        GetGoalsAsync();
+    }
+
+    /// <summary>
+    /// Refresh the Goals collection.
+    /// For use when changing the list of goals to update the UI.
+    /// </summary>
+    async void GetGoalsAsync()
+    {
+        try
+        {
+            var goals = await _goalService.GetItemsAsync();
+
+            if (Goals.Count != 0)
+            {
+                Goals.Clear();
+            }
+            foreach (var goal in goals)
+            {
+                Goals.Add(goal);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Shell.Current.DisplayAlertAsync("Error!", "Unable to get goals", "OK");
+        }
+    }
+
+    /// <summary>
+    /// On user input of tapping or clicking the "Add Goal" button
+    /// goes to New Goal page
+    /// </summary>
     [RelayCommand]
+
     async Task GoToAddAsync()
     {
         await Shell.Current.GoToAsync($"{nameof(NewGoalPage)}");
     }
 
-    public void AddNewGoal(Goal goal)
-    {
-        Goals.Add(goal);
-    }
-
-    // Need user input -> user push an item
-    // Navigate to details page
-    // Give goal object to details page
+    /// <summary>
+    /// On user input of tapping or clicking an item
+    /// goes to detail page
+    /// passing goal object to details page for display
+    /// </summary>
     [RelayCommand]
+
     async Task GoToDetailsAsync(Goal goal)
     {
         if (goal is null)
+        {
             return;
+        }
 
         await Shell.Current.GoToAsync($"{nameof(DetailPage)}", true,
             new Dictionary<string, object>
             {
-            { "Goal", goal },
+                { "Goal", goal },
             });
     }
 }

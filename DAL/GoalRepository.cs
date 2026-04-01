@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System;
 
 namespace ProductivityApp.DAL;
 
@@ -68,8 +67,7 @@ public class GoalRepository : IGoalRepository
     {
         // Remove item from database 
         await Init();
-        return await database.Table<GoalEntity>()
-            .DeleteAsync(entity => entity.Id == goal.Id);
+        return await database.Table<GoalEntity>().DeleteAsync(entity => entity.Id == goal.Id);
     }
 
 }

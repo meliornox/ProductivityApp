@@ -9,6 +9,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProductivityApp.Views.DetailPage"
+			 xmlns:model="clr-namespace:ProductivityApp.Models"
+			 xmlns:viewmodel="clr-namespace:ProductivityApp.ViewModels"
 			 BackgroundColor="#233D4D"
              Title="Goal Details">
 
@@ -102,7 +104,7 @@
 			FontAttributes="Bold"
             TextColor="#FE7F2D"
 			BackgroundColor="#F5FBE6" 
-			Command="{Binding EditButtonClickedCommand}"/>
+			Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:DetailViewModel}}, Path=EditButtonClickedCommand}"/>
 
         <Button
 			Grid.Row="2"

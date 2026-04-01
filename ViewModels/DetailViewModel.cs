@@ -3,6 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using ProductivityApp.Models;
 using ProductivityApp.Services;
 using ProductivityApp.Views;
+using ProductivityApp.DAL;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Text;
 
 namespace ProductivityApp.ViewModels;
 
@@ -46,11 +52,25 @@ public partial class DetailViewModel : ObservableObject
         }
     }
 
-    //Edit function
+    /// <summary>
+    /// On user input of tapping or clicking an item
+    /// goes to detail page
+    /// passing goal object to details page for display
+    /// </summary>
     [RelayCommand]
+
     async Task EditButtonClicked()
     {
-        await Shell.Current.GoToAsync($"{nameof(NewGoalPage)}");
+        if (goal is null)
+        {
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"{nameof(NewGoalPage)}", true,
+            new Dictionary<string, object>
+            {
+                { "Goal", goal },
+            });
     }
 
     //Delete function

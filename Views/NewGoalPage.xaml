@@ -14,67 +14,66 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProductivityApp.Views.NewGoalPage"
 			 BackgroundColor="#233D4D"
-             Title="New Goal">
-	
-    <VerticalStackLayout
-		HorizontalOptions="Center"
-		VerticalOptions="Center">
-		
-		<Label 
-			Text="Goal Name" 
-			Padding="10,10"
-			FontSize="18"
-			TextColor="#FE7F2D"
-			HorizontalTextAlignment="Start"/>
-		<Entry
-			Placeholder="What will you be doing?"
-			Text="{Binding Name}"/>
+             Title="{Binding Title}">
 
-		<Label
-			Text="Motivation"
-			Padding="10,10"
-			FontSize="18"
-			TextColor="#FE7F2D"
-			HorizontalTextAlignment="Start"/>
-		<Entry
-			Placeholder="Why will you be doing it?"
-			Text="{Binding Motivation}"/>
+    <Grid Padding="10" RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-		<Label
-			Text="Finish Date"
-			Padding="10,10"
-			FontSize="18"
-			TextColor="#FE7F2D"
-			HorizontalTextAlignment="Start"/>
-		<DatePicker Date="{Binding TargetDate}"/>
+        <VerticalStackLayout>
 
-		<Label
-			Text="Progress"
-			Padding="10,10"
-			FontSize="18"
-			TextColor="#FE7F2D"
-			HorizontalTextAlignment="Start"/>
-		<Entry
-			Placeholder="How done are you, from 0 to 1?"
-			Text="{Binding Progress}"/>
+            <Label 
+				Text="Goal Name" 
+				Padding="10,10"
+				FontSize="18"
+				TextColor="#FE7F2D"
+				HorizontalTextAlignment="Start"/>
+            <Entry
+				Placeholder="What will you be doing?"
+				Text="{Binding Name}"/>
 
-		<Button
+            <Label
+				Text="Motivation"
+				Padding="10,10"
+				FontSize="18"
+				TextColor="#FE7F2D"
+				HorizontalTextAlignment="Start"/>
+            <Entry
+				Placeholder="Why will you be doing it?"
+				Text="{Binding Motivation}"/>
+
+            <Label
+				Text="Finish Date"
+				Padding="10,10"
+				FontSize="18"
+				TextColor="#FE7F2D"
+				HorizontalTextAlignment="Start"/>
+            <DatePicker Date="{Binding TargetDate}"/>
+
+        </VerticalStackLayout>
+
+        <Button
 			Grid.Row="1"
-			Text="Add"
+			Text="Submit"
 			FontSize="24"
 			FontAttributes="Bold"
+            Margin="5"
 			TextColor="#FE7F2D"
 			BackgroundColor="#F5FBE6"
             Command="{Binding AddNewGoalCommand}"/>
 
-		<Button
+        <Button
 			Grid.Row="2"
 			Text="Back"
 			FontSize="24"
 			FontAttributes="Bold"
+            Margin="5"
 			TextColor="#FE7F2D"
 			BackgroundColor="#F5FBE6"
 			Command="{Binding BackButtonClickedCommand}"/>
-		
-    </VerticalStackLayout>
+
+    </Grid>
 </ContentPage>

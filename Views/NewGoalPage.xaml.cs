@@ -10,4 +10,14 @@ public partial class NewGoalPage : ContentPage
         BindingContext = viewModel;
 
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is NewGoalViewModel vm)
+        {
+            vm.OnAppearing();
+        }
+    }
 }

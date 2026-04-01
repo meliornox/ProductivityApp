@@ -1,31 +1,32 @@
-﻿using System;
-using ProductivityApp.DAL;
+﻿using ProductivityApp.DAL;
 using ProductivityApp.Models;
 
 namespace ProductivityApp.Services;
 
 class GoalService : IGoalService
 {
-	private readonly GoalRepository _goalRepository;
+	private readonly IGoalRepository _goalRepository;
 
 	public GoalService(IGoalRepository goalRepository)
 	{
 		_goalRepository = goalRepository;
+    }	
+	
+    public async Task<Goal> GetItemAsync(int id)
+    {
+        var entity = await _goalRepository.GetItemAsync(id);
+
+        return ToGoal(entity);
     }
 
-	public async Task<List<Goal>> GetItemsAsync()
+    public async Task<List<Goal>> GetItemsAsync()
 	{
 		var list = await _goalRepository.GetItemsAsync();
 
 		return list.Select(entity => ToGoal(entity)).OrderBy(entity => entity.TargetDate).ToList();
     }
 
-    public async Task<Goal> GetItemAsync(Goal goal)
-	{
-		var entity = await _goalRepository.GetItemAsync(id);
-
-		return ToGoal(entity);
-	}
+    //Example command implemented with Noemi
     public async Task<int> SaveItemAsync(Goal goal)
 	{
 		GoalEntity entity;
@@ -35,8 +36,8 @@ class GoalService : IGoalService
 			{
 				Name = goal.Name,
 				Motivation = goal.Motivation,
-				TargetDate = goal TargetDate,
-				Progress = goal Progress
+				StartDate = DateTime.Now,
+				TargetDate = goal.TargetDate
 			};
 		}
 		else
@@ -46,23 +47,24 @@ class GoalService : IGoalService
 
 		return await _goalRepository.SaveItemAsync(entity);
 	}
+
     public async Task<int> DeleteItemAsync(Goal goal)
 	{
 		GoalEntity entity = ToEntity(goal);
 
-		return await _goalRepository.DeleteItemAsync(goal);
+		return await _goalRepository.DeleteItemAsync(entity);
 	}
 
 	GoalEntity ToEntity(Goal goal)
 	{
 		return new GoalEntity()
 		{
-			Id = (int)goal.id,
+			Id = (int)goal.Id,
 			Name = goal.Name,
 			Motivation = goal.Motivation,
-            TargetDate = goal.TargetDate,
-            Progress = goal.Progress
-        }
+			StartDate = goal.StartDate,
+			TargetDate = goal.TargetDate
+		};
 	}
 
 	Goal ToGoal(GoalEntity entity)
@@ -72,10 +74,40 @@ class GoalService : IGoalService
 			Id = entity.Id,
 			Name = entity.Name,
 			Motivation = entity.Motivation,
+			StartDate = entity.StartDate,
 			TargetDate = entity.TargetDate,
-			Progress = entity.Progress
+			Progress = getProgress(entity.StartDate, entity.TargetDate)
 		};
 	}
 
-	//Any business logic that calculated elements of Goals or GoalEntities would go here as private classes
+    //Business logic
+
+    //Make Progress as a percentage of days from StartDate until TargetDate
+	private double getProgress(DateTime start, DateTime target)
+	{
+		TimeSpan allDifference = target - start;
+		double allTotalDays = allDifference.TotalDays;
+
+		TimeSpan currentDifference = start - DateTime.Now;
+		double currentTotalDays = currentDifference.TotalDays;
+
+		double progress = currentTotalDays / allTotalDays;
+
+		/*
+        if ((0 <= progress) && (progress <= 1))
+		{
+			return progress;
+		}
+		else if (progress < 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+		*/
+
+		return progress;
+	}
 }

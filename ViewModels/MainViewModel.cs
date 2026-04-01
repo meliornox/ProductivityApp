@@ -1,100 +1,121 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ProductivityApp.Models;
-using ProductivityApp.Views;
 using ProductivityApp.DAL;
+using ProductivityApp.Models;
+using ProductivityApp.Services;
+using ProductivityApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace ProductivityApp.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly IGoalService _goalRepo;
+    private readonly IGoalService _goalService;
 
-    public MainViewModel(IGoalRepository goalRepo)
+    public ObservableCollection<Goal> Goals { get; } = new();
+
+    public MainViewModel(IGoalService goalService)
     {
-        _goalRepo = goalRepo;
+        _goalService = goalService;
     }
 
-    public ObservableCollection<Goal> Goals { get; }
-
-    public MainViewModel()
+    /// <summary>
+    /// Refreshes the goals on the UI when the main view appears on screen.
+    /// </summary>
+    public void OnAppearing()
     {
-        Goals = new ObservableCollection<Goal> {
-            new Goal()
+        GetGoalsAsync();
+    }
+
+    /// <summary>
+    /// Refresh the Goals collection.
+    /// For use when changing the list of goals to update the UI.
+    /// </summary>
+    async void GetGoalsAsync()
+    {
+        try
+        {
+            var goals = await _goalService.GetItemsAsync();
+
+            if (Goals.Count != 0)
             {
-                Name = "First Goal",
-                Motivation = "The first goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.8,
-            },
-            new Goal()
-            {
-                Name = "Second Goal",
-                Motivation = "The second goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.7
-            },
-            new Goal()
-            {
-                Name = "Third Goal",
-                Motivation = "The third goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.6
-            },
-            new Goal()
-            {
-                Name = "Fourth Goal",
-                Motivation = "The fourth goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.5
-            },
-            new Goal()
-            {
-                Name = "Fifth Goal",
-                Motivation = "The fifth goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.4
-            },
-            new Goal()
-            {
-                Name = "Sixth Goal",
-                Motivation = "The sixth goal is important.",
-                TargetDate = "February 18, 2026",
-                Progress = 0.3
+                Goals.Clear();
             }
-        };
-
+            foreach (var goal in goals)
+            {
+                Goals.Add(goal);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Shell.Current.DisplayAlertAsync("Error!", "Unable to get goals", "OK");
+        }
     }
 
-    // Navigate to Add page to user input
+    /// <summary>
+    /// On user input of tapping or clicking the "Add Goal" button
+    /// Goes to New Goal page
+    /// </summary>
     [RelayCommand]
+
     async Task GoToAddAsync()
     {
         await Shell.Current.GoToAsync($"{nameof(NewGoalPage)}");
     }
 
-    public void AddNewGoal(Goal goal)
-    {
-        Goals.Add(goal);
-    }
-
-    // Need user input -> user push an item
-    // Navigate to details page
-    // Give goal object to details page
+    /// <summary>
+    /// On user input of tapping or clicking an item
+    /// goes to detail page
+    /// passing goal object to details page for display
+    /// </summary>
     [RelayCommand]
+
     async Task GoToDetailsAsync(Goal goal)
     {
         if (goal is null)
+        {
             return;
+        }
 
         await Shell.Current.GoToAsync($"{nameof(DetailPage)}", true,
             new Dictionary<string, object>
             {
-            { "Goal", goal },
+                { "Goal", goal },
             });
+    }
+
+    /// <summary>
+    /// Function to add Goal object to Goals database
+    /// </summary>
+    [RelayCommand]
+
+    async Task AddNewGoal(Goal goal)
+    { 
+        await _goalService.SaveItemAsync(goal);
+    }
+
+    /// <summary>
+    /// On user input of tapping or clicking an item
+    /// Goes to detail page
+    /// Passing goal object to details page for display
+    /// </summary>
+    [RelayCommand]
+
+    async Task Delete(Goal goal)
+    {
+        if (goal is null)
+        {
+            return;
+        }
+
+        //professional if try/catch with popup error
+        await _goalService.DeleteItemAsync(goal);
+
+        GetGoalsAsync();
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ProductivityApp.DAL;
+﻿namespace ProductivityApp.DAL;
 
 public interface IGoalRepository
 {

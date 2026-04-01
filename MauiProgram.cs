@@ -2,6 +2,8 @@
 
 using ProductivityApp.ViewModels;
 using ProductivityApp.Views;
+using ProductivityApp.DAL;
+using ProductivityApp.Services;
 
 namespace ProductivityApp
 {
@@ -29,6 +31,14 @@ namespace ProductivityApp
 
             builder.Services.AddTransient<NewGoalPage>();
             builder.Services.AddTransient<NewGoalViewModel>();
+
+            // Singleton service of the type specified in IGoalService
+            // with an implementation type specified in GoalService
+            builder.Services.AddSingleton<IGoalService, GoalService>();
+
+            // Singleton service of the type specified in IGoalRepository
+            // with an implementation type specified in GoalRepository
+            builder.Services.AddSingleton<IGoalRepository, GoalRepository>();
 
 #if DEBUG
             builder.Logging.AddDebug();

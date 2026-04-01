@@ -1,13 +1,13 @@
 using ProductivityApp.ViewModels;
 
-namespace ProductivityApp.Views;
-
-public partial class DetailPage : ContentPage
+namespace ProductivityApp.Views
 {
-
-    public DetailPage(DetailViewModel viewModel)
-	{
-        InitializeComponent();
-		BindingContext = viewModel;
+    public partial class DetailPage : ContentPage
+    {
+        public DetailPage(DetailViewModel viewModel)
+        {
+            InitializeComponent();
+            BindingContext = viewModel;
+        }
     }
 }

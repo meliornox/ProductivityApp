@@ -9,90 +9,120 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProductivityApp.Views.DetailPage"
+			 xmlns:model="clr-namespace:ProductivityApp.Models"
+			 xmlns:viewmodel="clr-namespace:ProductivityApp.ViewModels"
 			 BackgroundColor="#233D4D"
              Title="Goal Details">
-	
-    <VerticalStackLayout>
-		
-		<Grid
-			Padding="10"
-			ColumnSpacing="10"
-			RowSpacing="10"
-			VerticalOptions="Start">
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
+    <Grid Padding="10" RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+        <VerticalStackLayout>
 
-			<Border
-				Grid.Row="0"
-				Grid.Column="0"
-				HeightRequest="150"
-				StrokeShape="RoundRectangle 8"
-				StrokeThickness="2"
-				Background="#215E61"
-				Stroke="#F5FBE6">
+            <Grid
+				Padding="10"
+				ColumnSpacing="10"
+				RowSpacing="10"
+				VerticalOptions="Start">
 
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-					<Label
-						Text="{Binding Goal.Name}"
-						Padding="10,10"
-						FontSize="18"
-						TextColor="#FE7F2D"
-						HorizontalTextAlignment="Start"
-						Grid.Row="0" />
+                <Border
+					Grid.Row="0"
+					Grid.Column="0"
+					HeightRequest="150"
+					StrokeShape="RoundRectangle 8"
+					StrokeThickness="2"
+					Background="#215E61"
+					Stroke="#F5FBE6">
 
-					<Label
-						Text="{Binding Goal.TargetDate}"
-						Padding="10,10"
-						FontSize="14"
-						TextColor="#FE7F2D"
-						HorizontalTextAlignment="End"
-						Grid.Row="0" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-					<Label
-						Text="{Binding Goal.Motivation}"
-						Padding="10,10"
-						FontSize="14"
-						TextColor="#FE7F2D"
-						HorizontalTextAlignment="Start"
-						Grid.Row="1"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-					<ProgressBar
-						Progress="{Binding Goal.Progress}"
-						ProgressColor="#FE7F2D"
-						BackgroundColor="#233D4D"
-						Grid.Row="2"/>
+                        <Label
+							Text="{Binding Goal.Name}"
+							Padding="10,10"
+							FontSize="18"
+							TextColor="#FE7F2D"
+							HorizontalTextAlignment="Start"
+							Grid.Row="0" />
 
-				</Grid>
+                        <Label
+							Text="{Binding Goal.StartDate}"
+							Padding="10,10"
+							FontSize="14"
+							TextColor="#FE7F2D"
+							HorizontalTextAlignment="End"
+							Grid.Row="0" />
 
-			</Border>
+                        <Label
+							Text="{Binding Goal.Motivation}"
+							Padding="10,10"
+							FontSize="14"
+							TextColor="#FE7F2D"
+							HorizontalTextAlignment="Start"
+							Grid.Row="1"/>
 
-			<Button
-				Grid.Row="2"
-				Text="Back"
-				FontSize="24"
-				FontAttributes="Bold"
-				TextColor="#FE7F2D"
-				BackgroundColor="#F5FBE6" 
-				Command="{Binding BackButtonClickedCommand}"/>
+                        <ProgressBar
+							Progress="{Binding Goal.Progress}"
+							ProgressColor="#FE7F2D"
+							BackgroundColor="#233D4D"
+							Grid.Row="2"/>
 
-		</Grid>
-    </VerticalStackLayout>
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+        </VerticalStackLayout>
+        
+        <Button
+			Grid.Row="1"
+			Text="Edit"
+			FontSize="24"
+			FontAttributes="Bold"
+            TextColor="#FE7F2D"
+			BackgroundColor="#F5FBE6" 
+			Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:DetailViewModel}}, Path=EditButtonClickedCommand}"/>
+
+        <Button
+			Grid.Row="2"
+			Text="Delete"
+			FontSize="24"
+			FontAttributes="Bold"
+            TextColor="#FE7F2D"
+			BackgroundColor="#F5FBE6" 
+			Command="{Binding DeleteButtonClickedCommand}"/>
+
+        <Button
+			Grid.Row="3"
+			Text="Back"
+			FontSize="24"
+			FontAttributes="Bold"
+            TextColor="#FE7F2D"
+			BackgroundColor="#F5FBE6" 
+			Command="{Binding BackButtonClickedCommand}"/>
+        
+    </Grid>
 </ContentPage>

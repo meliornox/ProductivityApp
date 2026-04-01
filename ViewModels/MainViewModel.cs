@@ -92,4 +92,34 @@ public partial class MainViewModel : ObservableObject
                 { "Goal", goal },
             });
     }
+
+    /// <summary>
+    /// Function to add Goal object to Goals database
+    /// </summary>
+    [RelayCommand]
+
+    async Task AddNewGoal(Goal goal)
+    { 
+        await _goalService.SaveItemAsync(goal);
+    }
+
+    /// <summary>
+    /// On user input of tapping or clicking an item
+    /// Goes to detail page
+    /// Passing goal object to details page for display
+    /// </summary>
+    [RelayCommand]
+
+    async Task Delete(Goal goal)
+    {
+        if (goal is null)
+        {
+            return;
+        }
+
+        //professional if try/catch with popup error
+        await _goalService.DeleteItemAsync(goal);
+
+        GetGoalsAsync();
+    }
 }

@@ -87,7 +87,7 @@
 								HorizontalTextAlignment="Start"
 								Grid.Row="1"/>
 
-							<ProgressBar
+                            <ProgressBar
 								Progress="{Binding Progress}"
 								ProgressColor="#FE7F2D"
 								BackgroundColor="#233D4D"

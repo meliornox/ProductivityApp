@@ -3,6 +3,9 @@ using ProductivityApp.Models;
 
 namespace ProductivityApp.Services;
 
+/// <summary>
+/// GoalService interface
+/// </summary>
 public interface IGoalService
 {
 	Task<List<Goal>> GetItemsAsync();

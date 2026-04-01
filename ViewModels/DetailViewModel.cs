@@ -14,13 +14,14 @@ namespace ProductivityApp.ViewModels;
 
 // first nameof(Goal) is the class's property
 // second "Goal" defined in the path
-// await Shell.Current.GoToAsync($"{nameof(DetailPage)}"); Goal={object}
 [QueryProperty(nameof(Goal), "Goal")]
 
 public partial class DetailViewModel : ObservableObject
 {
+    // Private access to the GoalService
     private readonly IGoalService _goalService;
 
+    // Read the current Goal
     [ObservableProperty]
     Goal goal;
 
@@ -37,11 +38,18 @@ public partial class DetailViewModel : ObservableObject
     [ObservableProperty]
     private DateTime targetDate;
 
+    /// <summary>
+    /// Sets up private access to the GoalService
+    /// </summary>
+    /// <param name="goalService">GoalService to connect</param>
     public DetailViewModel(IGoalService goalService)
     {
         _goalService = goalService;
     }
 
+    /// <summary>
+    /// When the DetailPage is pulled up, refresh the goal. In this case pull over the properties passed by the database about the goals into the DetailView.
+    /// </summary>
     public void OnAppearing()
     {
         if (Goal is not null)
@@ -54,8 +62,8 @@ public partial class DetailViewModel : ObservableObject
 
     /// <summary>
     /// On user input of tapping or clicking an item
-    /// goes to detail page
-    /// passing goal object to details page for display
+    /// goes to edit page
+    /// passing goal object to edit page for modification
     /// </summary>
     [RelayCommand]
 
@@ -73,7 +81,11 @@ public partial class DetailViewModel : ObservableObject
             });
     }
 
-    //Delete function
+    /// <summary>
+    /// On user input of tapping or clicking the delete button
+    /// deletes goal
+    /// </summary>
+    /// <returns>Error if nothing passed to delete</returns>
     [RelayCommand]
     async Task DeleteButtonClicked()
     {
@@ -89,7 +101,11 @@ public partial class DetailViewModel : ObservableObject
         await Shell.Current.GoToAsync("..");
     }
 
-    //Back button
+    /// <summary>
+    /// On user input of tapping or clicking the back button
+    /// goes back to Main View
+    /// </summary>
+    /// <returns>Error if not able to go back</returns>
     [RelayCommand]
     async Task BackButtonClicked()
     {

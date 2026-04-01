@@ -12,12 +12,16 @@ using System.Text;
 
 namespace ProductivityApp.ViewModels;
 
+
 public partial class MainViewModel : ObservableObject
 {
+    // Private access to the GoalService
     private readonly IGoalService _goalService;
 
+    // Make an observable list of goals
     public ObservableCollection<Goal> Goals { get; } = new();
 
+    //Initialize GoalService
     public MainViewModel(IGoalService goalService)
     {
         _goalService = goalService;
@@ -59,7 +63,7 @@ public partial class MainViewModel : ObservableObject
 
     /// <summary>
     /// On user input of tapping or clicking the "Add Goal" button
-    /// Goes to New Goal page
+    /// goes to New Goal page
     /// </summary>
     [RelayCommand]
 

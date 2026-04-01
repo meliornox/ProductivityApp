@@ -10,11 +10,14 @@ namespace ProductivityApp.ViewModels;
 
 public partial class NewGoalViewModel : ObservableObject
 {
+    // Establish private database access
     private readonly IGoalService _goalService;
 
+    // Make the new goal observable
     [ObservableProperty]
     Goal goal;
 
+    // For use to distinguish the Edit page from the New Goal page
     [ObservableProperty]
     private string title;
 
@@ -36,6 +39,11 @@ public partial class NewGoalViewModel : ObservableObject
         _goalService = goalService;
     }
 
+    /// <summary>
+    /// When the page is opened
+    /// refresh the title based on making or editing a goal. 
+    /// If editing a goal, populate fillable fields with existing data.
+    /// </summary>
     public void OnAppearing()
     {
         Title = Goal is null ? "New Goal" : $"Edit: {Goal.Name}";
@@ -68,12 +76,19 @@ public partial class NewGoalViewModel : ObservableObject
     }
     
     */
-
+    
+    /// <summary>
+    /// When adding a new goal,
+    /// if the goal doesn't already exist, create one
+    /// but if it does exist, set the current values to the new values
+    /// 
+    /// TODO: Try-catch blocks
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
 
     async Task AddNewGoal()
     {
-        //Goal goal = new Goal();
         Goal goal;
         if (Goal is null)
         {
@@ -103,6 +118,11 @@ public partial class NewGoalViewModel : ObservableObject
         await Shell.Current.GoToAsync("..");
     }
 
+    /// <summary>
+    /// On user input of tapping or clicking the back button
+    /// goes back to Main View or Detail View
+    /// </summary>
+    /// <returns>Error if not able to go back</returns>
     [RelayCommand]
 
     async Task BackButtonClicked()

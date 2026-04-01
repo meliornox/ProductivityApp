@@ -83,6 +83,9 @@ public partial class NewGoalViewModel : ObservableObject
                 Motivation = Motivation,
                 TargetDate = TargetDate
             };
+
+            //If actual app, would use try-catch to see if it's successful
+            await _goalService.SaveItemAsync(goal);
         }
         else
         {
@@ -91,10 +94,12 @@ public partial class NewGoalViewModel : ObservableObject
             goal.Name = Name;
             goal.Motivation = Motivation;
             goal.TargetDate = TargetDate;
-        }
 
-        //If actual app, would use try-catch to see if it's successful
-        await _goalService.SaveItemAsync(goal);
+            //If actual app, would use try-catch to see if it's successful
+            await _goalService.SaveItemAsync(goal);
+
+            await Shell.Current.GoToAsync("..");
+        }
         await Shell.Current.GoToAsync("..");
     }
 

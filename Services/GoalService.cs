@@ -88,25 +88,15 @@ class GoalService : IGoalService
 		TimeSpan allDifference = target - start;
 		double allTotalDays = allDifference.TotalDays;
 
-		TimeSpan currentDifference = start - DateTime.Now;
+		TimeSpan currentDifference = DateTime.Now - start;
 		double currentTotalDays = currentDifference.TotalDays;
 
 		double progress = currentTotalDays / allTotalDays;
 
-		/*
-        if ((0 <= progress) && (progress <= 1))
+		if (progress < 0)
 		{
-			return progress;
+			progress = 1;
 		}
-		else if (progress < 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
-		*/
 
 		return progress;
 	}

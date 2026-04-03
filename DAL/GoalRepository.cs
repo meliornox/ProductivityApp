@@ -2,6 +2,10 @@
 
 namespace ProductivityApp.DAL;
 
+
+/// <summary>
+/// GoalRepository facilitates database access with standard initialization and get/add/update/delete functions
+/// </summary>
 public class GoalRepository : IGoalRepository
 {
 
@@ -9,7 +13,10 @@ public class GoalRepository : IGoalRepository
     // Init database
     SQLiteAsyncConnection database;
 
-    // Initialize Database connection
+    /// <summary>
+    /// Initializes database connection
+    /// </summary>
+    /// <returns>null if connection already initialized</returns>
     async Task Init()
     {
         // This is the guard clause. If the database connection 
@@ -31,6 +38,11 @@ public class GoalRepository : IGoalRepository
     //—---------------------------------------------------------------------------
     // Function definitions
 
+
+/// <summary>
+/// Initializes the database if uninitalized and retrieves all entries
+/// </summary>
+/// <returns>List of GoalEntities</returns>
     public async Task<List<GoalEntity>> GetItemsAsync()
     {
         // Get all Goal items, use async 
@@ -38,6 +50,11 @@ public class GoalRepository : IGoalRepository
         return await database.Table<GoalEntity>().ToListAsync();
     }
 
+    /// <summary>
+    /// Retrieves a GoalEntity from the database by ID
+    /// </summary>
+    /// <param name="id"> Primary key Id </param>
+    /// <returns>First GoalEntity where Id = id or null if none</returns>
     public async Task<GoalEntity> GetItemAsync(int id)
     {
         // Get specific item by Id -  
@@ -47,6 +64,11 @@ public class GoalRepository : IGoalRepository
         return await database.Table<GoalEntity>().Where(entity => entity.Id == id).FirstOrDefaultAsync();
     }
 
+    /// <summary>
+    /// Saves goal to the database, makes new record if not already present
+    /// </summary>
+    /// <param name="goal"> Goal to be saved </param>
+    /// <returns> Error message if unable to insert or update record </returns>
     public async Task<int> SaveItemAsync(GoalEntity goal)
     {
         // Check if it is a new object
@@ -63,6 +85,11 @@ public class GoalRepository : IGoalRepository
         }
     }
 
+    /// <summary>
+    /// Deletes Goal from database
+    /// </summary>
+    /// <param name="goal"> Goal to be deleted </param>
+    /// <returns> Error message if unable to delete </returns>
     public async Task<int> DeleteItemAsync(GoalEntity goal)
     {
         // Remove item from database 

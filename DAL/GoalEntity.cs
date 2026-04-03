@@ -1,8 +1,10 @@
 ﻿using SQLite;
-using System;
 
 namespace ProductivityApp.DAL;
 
+/// <summary>
+/// GoalEntity defines the database object for Goals, and in SQLite, thereby creates the database
+/// </summary>
 public class GoalEntity
 {
     [PrimaryKey, AutoIncrement]
